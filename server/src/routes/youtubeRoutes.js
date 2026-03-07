@@ -1,8 +1,16 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { searchVideos } = require('../controllers/youtubeController');
-const authMiddleware = require('../middleware/auth');
+const {
+  searchVideos,
+  getChannelVideosByChannelId,
+} = require("../controllers/youtubeController");
+const authMiddleware = require("../middleware/auth");
 
-router.get('/search', authMiddleware, searchVideos);
+router.get("/search", authMiddleware, searchVideos);
+router.get(
+  "/channel/:channelId/videos",
+  authMiddleware,
+  getChannelVideosByChannelId,
+);
 
 module.exports = router;
