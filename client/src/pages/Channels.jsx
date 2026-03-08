@@ -479,8 +479,16 @@ function Channels({ onPlay }) {
                       <p
                         style={{
                           fontSize: "0.8rem",
-                          color: "#aaa",
+                          color: "#1a8cd8",
                           marginBottom: "0.25rem",
+                          cursor: "pointer",
+                          textDecoration: "underline",
+                        }}
+                        onClick={() => {
+                          const ch = channels.find(
+                            (c) => c.channel_id === video.channel_id,
+                          );
+                          if (ch) handleOpenChannel(ch);
                         }}
                       >
                         {video.channel_name}

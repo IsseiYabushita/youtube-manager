@@ -16,18 +16,26 @@ const fetchFromYouTube = (url) => {
 
 // 動画を保存
 const saveVideo = async (req, res) => {
-  const { youtube_id, title, thumbnail, channel_name, status, published_at } =
-    req.body;
+  const {
+    youtube_id,
+    title,
+    thumbnail,
+    channel_name,
+    channel_id,
+    status,
+    published_at,
+  } = req.body;
   const user_id = req.userId;
   try {
     const result = await db.query(
-      "INSERT INTO videos (user_id, youtube_id, title, thumbnail, channel_name, status, published_at, metadata_updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, NOW()) RETURNING *",
+      "INSERT INTO videos (user_id, youtube_id, title, thumbnail, channel_name, channel_id, status, published_at, metadata_updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW()) RETURNING *",
       [
         user_id,
         youtube_id,
         title,
         thumbnail,
         channel_name,
+        channel_id || null,
         status || "watch_later",
         published_at || null,
       ],

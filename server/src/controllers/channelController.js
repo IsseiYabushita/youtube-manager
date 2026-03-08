@@ -167,6 +167,7 @@ const getLatestVideos = async (req, res) => {
             item.snippet.thumbnails?.default?.url ??
             "",
           channel_name: item.snippet.videoOwnerChannelTitle,
+          channel_id: channel.channel_id,
           published_at: item.contentDetails.videoPublishedAt,
         }));
         allVideos.push(...videos);

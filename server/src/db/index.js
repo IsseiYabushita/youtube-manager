@@ -1,5 +1,5 @@
-const { Pool } = require('pg');
-const dotenv = require('dotenv');
+const { Pool } = require("pg");
+const dotenv = require("dotenv");
 
 dotenv.config();
 
@@ -44,9 +44,13 @@ async function initDb() {
     await client.query(`
       ALTER TABLE channels ADD COLUMN IF NOT EXISTS metadata_updated_at TIMESTAMPTZ
     `);
-    console.log('DBスキーマを確認・更新しました');
+    // videos テーブルに channel_id カラムがなければ追加
+    await client.query(`
+      ALTER TABLE videos ADD COLUMN IF NOT EXISTS channel_id TEXT
+    `);
+    console.log("DBスキーマを確認・更新しました");
   } catch (err) {
-    console.error('DBスキーマ初期化エラー:', err.message);
+    console.error("DBスキーマ初期化エラー:", err.message);
   } finally {
     client.release();
   }
@@ -54,9 +58,9 @@ async function initDb() {
 
 pool.connect((err) => {
   if (err) {
-    console.error('DB接続エラー:', err);
+    console.error("DB接続エラー:", err);
   } else {
-    console.log('PostgreSQLに接続しました');
+    console.log("PostgreSQLに接続しました");
     initDb();
   }
 });

@@ -688,8 +688,17 @@ function Home() {
                     <p
                       style={{
                         fontSize: "0.8rem",
-                        color: "#aaa",
+                        color: video.channel_id ? "#1a8cd8" : "#aaa",
                         marginBottom: "0.25rem",
+                        cursor: video.channel_id ? "pointer" : "default",
+                        textDecoration: video.channel_id ? "underline" : "none",
+                      }}
+                      onClick={() => {
+                        if (video.channel_id)
+                          handleOpenChannelPanel(
+                            video.channel_id,
+                            video.channel_name,
+                          );
                       }}
                     >
                       {video.channel_name}
