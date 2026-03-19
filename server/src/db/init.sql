@@ -46,3 +46,17 @@ CREATE TABLE IF NOT EXISTS latest_videos_cache (
   videos JSONB NOT NULL,
   cached_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+-- Supabase Security Advisor 対応
+-- このアプリはサーバー経由で DB にアクセスするため、Supabase の公開 API からは
+-- 直接参照できないようにしておく（特に users.password を保護）。
+
+ALTER TABLE users ENABLE ROW LEVEL SECURITY;
+ALTER TABLE channels ENABLE ROW LEVEL SECURITY;
+ALTER TABLE daily_watch ENABLE ROW LEVEL SECURITY;
+ALTER TABLE latest_videos_cache ENABLE ROW LEVEL SECURITY;
+ALTER TABLE videos ENABLE ROW LEVEL SECURITY;
+
+-- users は API 経由アクセスを完全に禁止（PII/credential 保護）
+REVOKE ALL ON TABLE users FROM anon;
+REVOKE ALL ON TABLE users FROM authenticated;
